@@ -1,0 +1,4 @@
+misc
+utils/__pycache__
+data/*.json
+__pycache__

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{{ super() }}
+<link rel = 'stylesheet' href = '{{ url_for("static", filename = "css/search.css") }}'> </link>
+<script src = '{{ url_for("static", filename = "js/search.js") }}' defer> </script>
+{% endblock %}
+
+{% block content %}
+<div class = 'content'>
+    <h1> Species Search </h1>
+    <p> Enter the name of a species in the below search bar: </p>
+    <form method = 'POST'>
+        <input name = 'input' type = 'text' id = 'queryInput' />
+        <button type = 'submit' id = 'submitButton'> Find Species </button>
+    </form>
+    <div class = 'results'>
+        <p> Enter a search query in the search bar above! </p>
+    </div>
+</div>
+{% endblock %}

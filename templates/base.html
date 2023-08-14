@@ -1,0 +1,22 @@
+<!-- All subsequent templates will be based off of this one-->
+{% block head %}
+<link rel = 'stylesheet' href = '{{ url_for("static", filename = "css/main.css") }}'> </link>
+{% endblock %}
+
+{% block header %}
+<div class = "topnav">
+    <a href = "{{ url_for('index') }}"> Home </a>
+    <a href = "{{ url_for('species_tree') }}"> Species Trees </a>
+    <a href = "{{ url_for('search') }}"> Species Search  </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Will be filled out by subsequent templates -->
+{% endblock %}
+
+{% block footer %}
+<div class = "footer">
+    <p> Visit our <a href = 'https://github.com/kevfo/TestApp' target = '_blank'> GitHub </a> or join our <a href = 'https://discord.gg/qr8tYYHu7Y'> Discord! </a> </p>
+</div>
+{% endblock %}

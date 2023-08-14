@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel = 'stylesheet' href = '{{ url_for("static", filename = "css/treeDisplay.css") }}'> </link>
+
+<script src = '{{ url_for("static", filename = "treeJS/tree.js") }}'> </script>
+<script src = '{{ url_for("static", filename = "js/helpers.js") }}'> </script> 
+<script src = '{{ url_for("static", filename = "js/tree.js") }}' defer> </script>
+{% endblock %}
+
+{% block content %}
+<div class = 'content'>
+    <h1> 
+        Visualize Tree for: 
+        <select id = 'jsonData'>
+            <option value = '' selected> Select a genus </option>
+            <option value = 'G'> Glaucocystophyceae </option>
+            <option value = 'R'> Rhodophyta </option>
+            <option value = 'V'> Viridiplantae </option>
+        </select>
+    </h1>
+    <p> 
+        Select an option from the dropdown menu above to visualize the species tree for the option.  The tree will appear to the left; click on it
+        in the tree to know more about it! 
+    </p>
+    <br />
+    <div class = 'row'>
+        <div class = 'column left treeDisp'>
+            <p> Select a tree from the dropdown menu above! </p>
+        </div>
+        <div> </div>
+        <div class = 'column right disp'>
+            <p> Click on an item in the tree to the right to know more about it!</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
