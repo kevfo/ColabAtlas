@@ -23,7 +23,7 @@ def search():
 @app.route('/find', methods = ['POST'])
 def find():
     '''
-    Do we still need this route?
+    Do we still need this route (i.e., for that search bar page)?
     '''
     query = find_queries(request.data.decode('utf-8'))
     return jsonify(query)

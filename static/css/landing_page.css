@@ -23,7 +23,7 @@ body {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #6CA6CD;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -32,5 +32,9 @@ body {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #3b73af;
+}
+
+.noGenus {
+    font-weight: bold;
 }

@@ -22,10 +22,15 @@ def find_entity_information(query):
     an object has (if not the amount of RNA information available for 
     species).
     '''
-    with open('data/pickles/missing_info_counts', 'rb') as info:
-        data, refined = pickle.load(info), ' '.join([i for i in query.split() if '[' not in i and ']' not in i and not i.isdigit()]).lower()
-        result = data.get(refined, None)
-        if result is None:
-            return find_queries(refined) 
-        else:
-            return {'item_chosen' : refined, 'missing' : data[refined]}
+    with open('data/pickles/rna_counts', 'rb') as info:
+        data, refined, result = pickle.load(info), ' '.join([i for i in query.split() if '[' not in i and ']' not in i and not i.isdigit()]), None
+        key = refined.lower()
+        if 'class' in query:
+            result = data['classcount'].get(key)
+        elif 'family' in query:
+            result = data['familycount'].get(key)
+        elif 'genus' in query:
+            result = data['genuscount'].get(key)
+        elif 'order' in query:
+            result = data['ordercount'].get(key)
+        return {'query' : refined, 'count' : result}

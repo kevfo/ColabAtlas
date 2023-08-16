@@ -22,16 +22,13 @@ const showInformation = () => {
     fetch('/find_entity', {method: 'POST', body: chosen})
     .then(response => {return response.json()})
     .then(resData => {
-        if (resData.missing !== undefined) {
-            INFO_DISP.innerHTML = `<h3> You chose: ${resData.item_chosen} </h3> 
-            <p> Amount of ${determineEntity(chosen)} with missing data: ${resData.missing} </p>`
-        } else if (resData.ill !== undefined) {
-            INFO_DISP.innerHTML = `<h3> You chose: ${resData.item_chosen} </h3> 
-            <p> Amount of Illumina RNA data: ${resData.illumina_rna_count} </p> 
-            <p> Amount of RNA: ${resData.rna_count} </p>`
+        console.log(resData)
+        if (resData.count !== null) {
+            INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3>
+            <ul> <li> Amount of entities under "${resData.query}" with 20 or more RNA sequence counts: ${resData.count} </li> </ul>`
         } else {
-            INFO_DISP.innerHTML = `<h3> You chose: ${resData.item_chosen} </h3>
-            <p> No available information! </p>`
+            INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3> 
+            <p> No information available! </p>`
         }
     })
     .catch(error => console.error(error))
