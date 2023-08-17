@@ -25,7 +25,7 @@ const showInformation = () => {
         console.log(resData)
         if (resData.count !== null) {
             INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3>
-            <ul> <li> Amount of entities under "${resData.query}" with 20 or more RNA sequence counts: ${resData.count} </li> </ul>`
+            <ul> <li> Amount of entities under "${resData.query}" with more than 20 RNA sequence counts: ${resData.count} </li> </ul>`
         } else {
             INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3> 
             <p> No information available! </p>`
@@ -39,7 +39,6 @@ const updateTree = () => {
         TREE_DISPLAY.innerHTML = ''
     }
     let value = TREE_SELECTOR.value, cdnLink = '';
-    
     switch(value) {
         case 'G':
             cdnLink = 'https://atlascdn.netlify.app/G_taxon_fulllist_edited.json';
@@ -53,11 +52,21 @@ const updateTree = () => {
         default:
             return;
     }
+    TREE_DISPLAY.innerHTML = '<span class = "loading"> Loading </span>';
+    let dots = window.setInterval(function() {
+        let loadingElement = document.querySelector('.loading');
+        if (loadingElement.innerText.length > 11) {
+            loadingElement.innerText = 'Loading';
+        } else {
+            loadingElement.innerText += '.';
+        }
+    }, 500)
 
     fetch(cdnLink)
     .then(response => response.json())
     .then(resData => {
         let reformat = updateFieldInJSON(resData, 'type', Tree.FOLDER);
+        clearInterval(dots) ; TREE_DISPLAY.innerHTML = '';
         let tree = new Tree(TREE_DISPLAY);
         tree.json(reformat);
         document.querySelectorAll('[data-type="folder"]').forEach(item => {
