@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 
 # Import custom modules here:
-from utils.search import find_queries, find_entity_information
+from utils.search import find_queries, find_entity_information, get_color
 
 app = Flask(__name__)
 
@@ -17,7 +17,6 @@ def species_tree():
 def search():
     return render_template('search.html')
 
-
 # INTERNAL ROUTES - MEANT TO BE ACCESSED BY THE APPLICATION, NOT THE USER
 
 @app.route('/find', methods = ['POST'])
@@ -32,3 +31,9 @@ def find():
 def find_entity():
     query = find_entity_information(request.data.decode('utf-8'))
     return jsonify(query)
+
+@app.route('/find_color/', methods = ['POST'])
+def find_color():
+    query = ''.join([i for i in request.data.decode('utf-8').split()[-1] if not i.isdigit()]).lower()
+    print(query, get_color(query))
+    return jsonify(get_color(query))

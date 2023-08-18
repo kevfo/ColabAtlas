@@ -34,3 +34,15 @@ def find_entity_information(query):
         elif 'order' in query:
             result = data['ordercount'].get(key)
         return {'query' : refined, 'count' : result}
+
+def get_color(entity):
+    '''
+    Given an 'entity', search for an appropriate color scheme
+    based on the pickled file tree_colors
+    '''
+    with open('data/pickles/tree_colors', 'rb') as colors:
+        data, key = pickle.load(colors), entity.lower()
+        for color, items in data.items():
+            if key in items:
+                return {'color' : color.upper()}
+    return {'color' : '#000000'}

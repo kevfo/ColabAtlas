@@ -52,6 +52,7 @@ const updateTree = () => {
         default:
             return;
     }
+
     TREE_DISPLAY.innerHTML = '<span class = "loading"> Loading </span>';
     let dots = window.setInterval(function() {
         let loadingElement = document.querySelector('.loading');
@@ -63,16 +64,21 @@ const updateTree = () => {
     }, 500)
 
     fetch(cdnLink)
-    .then(response => response.json())
-    .then(resData => {
-        let reformat = updateFieldInJSON(resData, 'type', Tree.FOLDER);
-        clearInterval(dots) ; TREE_DISPLAY.innerHTML = '';
-        let tree = new Tree(TREE_DISPLAY);
-        tree.json(reformat);
-        document.querySelectorAll('[data-type="folder"]').forEach(item => {
-            item.addEventListener('click', showInformation)
+        .then(response => response.json())
+        .then(resData => {
+            let reformat = updateFieldInJSON(resData, 'type', Tree.FOLDER);
+            clearInterval(dots) ; TREE_DISPLAY.innerHTML = '';
+            let tree = new Tree(TREE_DISPLAY);
+            tree.json(reformat);
+            
+            var nodes = document.querySelectorAll('[data-type="folder"]');
+            nodes.forEach(item => {
+                item.addEventListener('click', showInformation);
+                fetch('/find_color', {method : 'POST', body : item.innerText})
+                    .then(res => res.json())
+                    .then(resData => item.setAttribute('style', `color : ${resData.color}`))
+            })
         })
-    })
 }
 
 TREE_SELECTOR.addEventListener('change', () => {
