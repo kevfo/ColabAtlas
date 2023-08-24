@@ -1,29 +1,30 @@
-function updateFieldInJSON(obj, fieldToUpdate, newValue) {
-    // Base case: If the object is not an object or array, return it as is
-    if (typeof obj !== 'object' || obj === null) {
-        return obj;
+function jsonToNestedBulletPoints(jsonObj, parentElement) {
+    let ulElement = document.createElement('ul');
+
+    for (const key in jsonObj) {
+        if (jsonObj.hasOwnProperty(key)) {
+            let liElement = document.createElement('li');
+            let aElement = document.createElement('a');
+
+            if (typeof jsonObj[key] === 'object') {
+                fetch(`/find_information/${key.toLowerCase()}`, {method : 'POST'})
+                    .then(res => res.json())
+                    .then(meta => {
+                        aElement.textContent = `${key} (${meta.missing !== null ? meta.missing.toString() + ' entity / entities with missing information' : 'no available information'})`;
+                        aElement.href = '';
+                        aElement.target = '_blank';
+
+                        jsonToNestedBulletPoints(jsonObj[key], aElement)
+                        liElement.appendChild(aElement);
+                        ulElement.appendChild(liElement);
+                    })
+                    .catch(e => console.error(e))
+            } else {
+                liElement.appendChild(aElement);
+                ulElement.appendChild(liElement);
+            }
+        } 
     }
 
-    // If the object is an array, iterate through its elements
-    if (Array.isArray(obj)) {
-        for (let i = 0; i < obj.length; i++) {
-            obj[i] = updateFieldInJSON(obj[i], fieldToUpdate, newValue);
-        }
-    return obj;
-    }
-
-    // If the object is an object, iterate through its properties
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            // If the property is an object, recursively update its sub-properties
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-            obj[key] = updateFieldInJSON(obj[key], fieldToUpdate, newValue);
-            }
-            // Update the specified field if it exists
-            if (key === fieldToUpdate) {
-                obj[key] = newValue;
-            }
-        }
-    }
-    return obj;
+    parentElement.appendChild(ulElement);
 }

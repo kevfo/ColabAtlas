@@ -4,11 +4,15 @@
 {{ super() }}
 <link rel = 'stylesheet' href = '{{ url_for("static", filename = "css/treeDisplay.css") }}'> </link>
 
-<script src = '{{ url_for("static", filename = "treeJS/tree.js") }}'> </script>
 <script src = '{{ url_for("static", filename = "js/helpers.js") }}'> </script> 
 <script src = '{{ url_for("static", filename = "js/tree.js") }}' defer> </script>
 {% endblock %}
 
+<!-- 
+    Features to implement later:
+    1) Ability to filter organisms by amount of data available (i.e., show all, show organisms with data, and show organisms with no data)
+    2) Numbers after the organisms themselves to indicate the amount of data that they have
+-->
 {% block content %}
 <div class = 'content'>
     <h1> 
@@ -20,19 +24,19 @@
             <option value = 'V'> Viridiplantae </option>
         </select>
     </h1>
-    <p> 
-        Select an option from the dropdown menu above to visualize the species tree for the option.  The tree will appear to the left; click on it
-        in the tree to know more about it! 
-    </p>
-    <br />
-    <div class = 'row'>
-        <div class = 'column left treeDisp'>
-            <p> Select a tree from the dropdown menu above! </p>
-        </div>
-        <div> </div>
-        <div class = 'column right disp'>
-            <p> Click on an item in the tree to the right to know more about it!</p>
-        </div>
+    <div class = 'options'>
+        <p> 
+            Display options: 
+            <form id = 'displayOptions'>
+                <input type = 'radio' id = 'all' name = 'option' /> <label for = 'all'> All Species </label>
+                <input type = 'radio' id = 'some' name = 'option' /> <label for = 'some'> Entities with RNA data </label>
+                <input type = 'radio' id = 'none' name = 'option' /> <label for = 'none'> Entities with no Data </label>
+            </form>
+        </p>
+        <br />
+    </div>
+    <div class = 'treeDisplay'>
+
     </div>
 </div>
 {% endblock %}

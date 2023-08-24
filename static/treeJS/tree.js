@@ -1,5 +1,4 @@
 'use strict';
-
 {
   const Emitter = typeof window.Emitter === 'undefined' ? class Emitter {
     constructor() {
@@ -101,6 +100,22 @@
         details.dataset.type = SimpleTree.FOLDER;
       });
       this.emit('created', summary, node);
+      this.addEventListener('click', () => {
+        const INFO_DISP = document.querySelector('.disp');
+        fetch('/find_entity', {method: 'POST', body: parent.innerText})
+          .then(response => {return response.json()})
+          .then(resData => {
+              console.log(resData)
+              if (resData.count !== null) {
+                  INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3>
+                  <ul> <li> Amount of entities under "${resData.query}" with more than 20 RNA sequence counts: ${resData.count} </li> </ul>`
+              } else {
+                  INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3> 
+                  <p> No information available! </p>`
+              }
+          })
+          .catch(error => console.error(error))
+      })
       return summary;
     }
     open(details) {

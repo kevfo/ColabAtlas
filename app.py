@@ -17,6 +17,15 @@ def species_tree():
 def search():
     return render_template('search.html')
 
+@app.route('/entity/<ent>', methods = ['GET'])
+def entity(ent):
+    '''
+    Given an 'ent', fetch information about it and display it on a 
+    separate page. 
+    '''
+    entity_info = find_entity_information(ent)
+    return render_template('entity_page.html', info = entity_info)
+
 # INTERNAL ROUTES - MEANT TO BE ACCESSED BY THE APPLICATION, NOT THE USER
 
 @app.route('/find', methods = ['POST'])
@@ -26,6 +35,17 @@ def find():
     '''
     query = find_queries(request.data.decode('utf-8'))
     return jsonify(query)
+
+@app.route('/find_information/<item>', methods = ['POST'])
+def find_information(item):
+    '''
+    Returns number of missing entities and also text color.
+    '''
+    req = item.lower()
+    return jsonify({'text_color' : get_color(req), 'missing' : find_entity_information(req)})
+    
+
+# Not sure if still need these routes...
 
 @app.route('/find_entity', methods = ['POST'])
 def find_entity():

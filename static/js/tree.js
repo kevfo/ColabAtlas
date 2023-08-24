@@ -1,38 +1,8 @@
 // Deals with the construction of the 
 // Species tree as shown on https://phytozome-next.jgi.doe.gov/
 
-const TREE_DISPLAY = document.querySelector('.treeDisp');
+const TREE_DISPLAY = document.querySelector('.treeDisplay');
 const TREE_SELECTOR = document.querySelector('#jsonData');
-const INFO_DISP = document.querySelector('.disp');
-
-const determineEntity = (entity) => {
-    if (entity.includes('[genus]')) {
-        return 'species';
-    } else if (entity.includes('[family]')) {
-        return 'genuses';
-    } else if (entity.includes('[class]')) {
-        return 'families';
-    } else {
-        return 'entities';
-    }
-}
-
-const showInformation = () => {
-    let chosen = event.target.innerText;
-    fetch('/find_entity', {method: 'POST', body: chosen})
-    .then(response => {return response.json()})
-    .then(resData => {
-        console.log(resData)
-        if (resData.count !== null) {
-            INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3>
-            <ul> <li> Amount of entities under "${resData.query}" with more than 20 RNA sequence counts: ${resData.count} </li> </ul>`
-        } else {
-            INFO_DISP.innerHTML = `<h3> You chose: ${resData.query} </h3> 
-            <p> No information available! </p>`
-        }
-    })
-    .catch(error => console.error(error))
-}
 
 const updateTree = () => {
     if (TREE_DISPLAY.innerHTML.length !== 0) {
@@ -53,31 +23,21 @@ const updateTree = () => {
             return;
     }
 
-    TREE_DISPLAY.innerHTML = '<span class = "loading"> Loading </span>';
-    let dots = window.setInterval(function() {
-        let loadingElement = document.querySelector('.loading');
-        if (loadingElement.innerText.length > 11) {
-            loadingElement.innerText = 'Loading';
+    let loadingDots = window.setInterval(function() {
+        TREE_DISPLAY.innerText = 'Loading';
+        if (TREE_DISPLAY.innerText.length >= 10) {
+            TREE_DISPLAY.innerText = 'Loading';
         } else {
-            loadingElement.innerText += '.';
+            TREE_DISPLAY.innerText += '.';
         }
     }, 500)
 
     fetch(cdnLink)
         .then(response => response.json())
         .then(resData => {
-            let reformat = updateFieldInJSON(resData, 'type', Tree.FOLDER);
-            clearInterval(dots) ; TREE_DISPLAY.innerHTML = '';
-            let tree = new Tree(TREE_DISPLAY);
-            tree.json(reformat);
-            
-            var nodes = document.querySelectorAll('[data-type="folder"]');
-            nodes.forEach(item => {
-                item.addEventListener('click', showInformation);
-                fetch('/find_color', {method : 'POST', body : item.innerText})
-                    .then(res => res.json())
-                    .then(resData => item.setAttribute('style', `color : ${resData.color}`))
-            })
+            clearInterval(loadingDots); 
+            TREE_DISPLAY.innerText = '';
+            jsonToNestedBulletPoints(resData, TREE_DISPLAY);
         })
 }
 

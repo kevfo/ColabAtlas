@@ -23,17 +23,11 @@ def find_entity_information(query):
     species).
     '''
     with open('data/pickles/rna_counts', 'rb') as info:
-        data, refined, result = pickle.load(info), ' '.join([i for i in query.split() if '[' not in i and ']' not in i and not i.isdigit()]), None
-        key = refined.lower()
-        if 'class' in query:
-            result = data['classcount'].get(key)
-        elif 'family' in query:
-            result = data['familycount'].get(key)
-        elif 'genus' in query:
-            result = data['genuscount'].get(key)
-        elif 'order' in query:
-            result = data['ordercount'].get(key)
-        return {'query' : refined, 'count' : result}
+        data = pickle.load(info)
+        for i in data:
+            if data[i].get(query.lower()) is not None:
+                return data[i].get(query.lower())
+        return None
 
 def get_color(entity):
     '''
@@ -44,5 +38,5 @@ def get_color(entity):
         data, key = pickle.load(colors), entity.lower()
         for color, items in data.items():
             if key in items:
-                return {'color' : color.upper()}
-    return {'color' : '#000000'}
+                return color.upper()
+    return '#000000'
