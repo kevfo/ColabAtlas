@@ -1,6 +1,5 @@
 function jsonToNestedBulletPoints(jsonObj, parentElement) {
-    let ulElement = document.createElement('ul');
-
+    let ulElement = document.createElement('ul'), choice = document.querySelector('input[name="option"]:checked').value;
     for (const key in jsonObj) {
         if (jsonObj.hasOwnProperty(key)) {
             let liElement = document.createElement('li');
@@ -10,7 +9,20 @@ function jsonToNestedBulletPoints(jsonObj, parentElement) {
                 fetch(`/find_information/${key.toLowerCase()}`, {method : 'POST'})
                     .then(res => res.json())
                     .then(meta => {
-                        aElement.textContent = `${key} (${meta.missing !== null ? meta.missing.toString() + ' entity / entities with missing information' : 'no available information'})`;
+                        if (choice === 'none') {
+                            if (meta.missing !== null) {
+                                return;
+                            }
+                            aElement.textContent = `${key} (no available information)`;
+                        } else if (choice === 'some') {
+                            if (meta.missing === null) {
+                                return;
+                            }
+                            aElement.textContent = `${key} (${meta.missing.toString() + ' entity / entities with missing information'})`;                          
+                        } else if (choice === 'all') {
+                            aElement.textContent = `${key} (${meta.missing !== null ? meta.missing.toString() + ' entity / entities with missing information' : 'no available information'})`;
+                        }
+
                         aElement.href = '';
                         aElement.target = '_blank';
 
@@ -26,5 +38,5 @@ function jsonToNestedBulletPoints(jsonObj, parentElement) {
         } 
     }
 
-    parentElement.appendChild(ulElement);
+    parentElement.appendChild(ulElement)
 }

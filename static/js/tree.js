@@ -3,11 +3,10 @@
 
 const TREE_DISPLAY = document.querySelector('.treeDisplay');
 const TREE_SELECTOR = document.querySelector('#jsonData');
+const OPTIONS = document.querySelector('#displayOptions');
 
 const updateTree = () => {
-    if (TREE_DISPLAY.innerHTML.length !== 0) {
-        TREE_DISPLAY.innerHTML = ''
-    }
+    TREE_DISPLAY.innerHTML = ''
     let value = TREE_SELECTOR.value, cdnLink = '';
     switch(value) {
         case 'G':
@@ -44,3 +43,7 @@ const updateTree = () => {
 TREE_SELECTOR.addEventListener('change', () => {
     updateTree();
 });
+
+OPTIONS.addEventListener('change', () => {
+    updateTree();
+})

@@ -40,3 +40,8 @@ def get_color(entity):
             if key in items:
                 return color.upper()
     return '#000000'
+
+def is_species(entity):
+    with open('data/pickles/is_species', 'rb') as info:
+        data = pickle.load(info)
+        return data.get(entity.lower(), False)

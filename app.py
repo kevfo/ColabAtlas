@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 
 # Import custom modules here:
-from utils.search import find_queries, find_entity_information, get_color
+from utils.search import find_queries, find_entity_information, get_color, is_species
 
 app = Flask(__name__)
 
@@ -42,7 +42,9 @@ def find_information(item):
     Returns number of missing entities and also text color.
     '''
     req = item.lower()
-    return jsonify({'text_color' : get_color(req), 'missing' : find_entity_information(req)})
+    return jsonify({'text_color' : get_color(req), 
+                    'missing' : find_entity_information(req),
+                    'is_species' : is_species(req)})
     
 
 # Not sure if still need these routes...
