@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 
 # Import custom modules here:
-from utils.search import find_queries, find_entity_information, get_color, is_species
+from utils.search import find_queries, find_entity_information, get_color, is_species, find_species
 
 app = Flask(__name__)
 
@@ -46,6 +46,17 @@ def find_information(item):
                     'missing' : find_entity_information(req),
                     'is_species' : is_species(req)})
     
+@app.route('/populate_item/<item>', methods = ['GET', 'POST'])
+def populate_item(item):
+    '''
+    Given an item, try to find its nested species.
+    '''
+    req = item.split('(')[0].strip().lower()
+    return jsonify({'species' : find_species(req)})
+
+
+
+
 
 # Not sure if still need these routes...
 

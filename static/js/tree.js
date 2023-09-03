@@ -40,10 +40,12 @@ const updateTree = () => {
         })
 }
 
+
 TREE_SELECTOR.addEventListener('change', () => {
     updateTree();
 });
-
 OPTIONS.addEventListener('change', () => {
     updateTree();
 })
+
+// Add event listeners for when somebody clicks on an item:

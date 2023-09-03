@@ -45,3 +45,8 @@ def is_species(entity):
     with open('data/pickles/is_species', 'rb') as info:
         data = pickle.load(info)
         return data.get(entity.lower(), False)
+    
+def find_species(entity):
+    with open('data/pickles/sub_elements', 'rb') as file:
+        data = pickle.load(file)
+        return data.get(entity.lower(), None)
