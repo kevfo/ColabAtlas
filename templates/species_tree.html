@@ -2,41 +2,28 @@
 
 {% block head %}
 {{ super() }}
-<link rel = 'stylesheet' href = '{{ url_for("static", filename = "css/treeDisplay.css") }}'> </link>
+<!-- Inserting Taxonium and React dependencies -->
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/taxonium-component"></script>
 
-<script src = '{{ url_for("static", filename = "js/helpers.js") }}'> </script> 
-<script src = '{{ url_for("static", filename = "js/tree.js") }}' defer> </script>
 {% endblock %}
 
-<!-- 
-    Features to implement later:
-    1) Ability to filter organisms by amount of data available (i.e., show all, show organisms with data, and show organisms with no data)
-    2) Numbers after the organisms themselves to indicate the amount of data that they have
--->
 {% block content %}
-<div class = 'content'>
-    <h1> 
-        Visualize Tree for: 
-        <select id = 'jsonData'>
-            <option value = '' selected> Select a genus </option>
-            <option value = 'G'> Glaucocystophyceae </option>
-            <option value = 'R'> Rhodophyta </option>
-            <option value = 'V'> Viridiplantae </option>
-        </select>
-    </h1>
-    <div class = 'options'>
-        <p> 
-            Display options: 
-            <form id = 'displayOptions'>
-                <input type = 'radio' id = 'all' name = 'option' value = 'all' checked/> <label for = 'all'> All Species </label>
-                <input type = 'radio' id = 'some' name = 'option' value = 'some'/> <label for = 'some'> Entities with RNA data </label>
-                <input type = 'radio' id = 'none' name = 'option' value = 'none'/> <label for = 'none'> Entities with no Data </label>
-            </form>
-        </p>
-        <br />
-    </div>
-    <div class = 'treeDisplay'>
 
-    </div>
+<div class = 'content'>
+    
 </div>
+<script>
+    // const nwk = `((A:0.1,B:0.2):0.3,(C:0.4,D:0.5):0.6);`;
+    const sourceData = {
+        filename: "misc/raw_data/g_taxon.jsonl",
+        filetype: "jsonl"
+    };  
+
+    ReactDOM.render(
+        React.createElement(Taxonium, { sourceData : sourceData }),
+        document.querySelector('.content')
+    );
+</script>
 {% endblock %}

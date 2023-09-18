@@ -1,14 +1,40 @@
 {% extends 'base.html' %}
 
-{% block header %}
-{{ super() }}
-<link rel = 'stylesheet' href = '{{ url_for("static", filename = "css/landing_page.css") }}'> </link>
-{% endblock %}
-
 {% block content %}
-<div class = 'content'>
-    <h1> Welcome to Connectome Atlas </h1>
-    <p> Visualize species trees for <span class = 'no'> 3 </span> genuses! </p>
-    <a href = "{{ url_for('species_tree') }}" class = "btn"> Start Visualizing </a>
+<div class="text-center p-16">
+    <h1 class="text-5xl mb-7 font-bold"> Welcome to Colab Atlas </h1>
+    <p class="text-xl mb-8 font-medium">Visualize species trees for two phyla and one subkingdom </p>
+    <!-- 
+    <a href = "{{ url_for('species_tree') }}" class = "inline-block px-4 py-2 bg-blue-500 text-white text-decoration-none rounded-lg font-bold transition hover:bg-blue-700">
+        Start Visualizing!
+    </a> -->
+    <div class="flex justify-between pt-10">
+        <div class="w-1/4 bg-gray-200 rounded-lg">
+            <p class = 'text-xl py-2 font-semibold'> Rhodophyta </p>
+            <div class="bg-white shadow-lg p-4 rounded-lg">
+                <a href = "{{ url_for('view', genus = 'r') }}" class = "inline-block px-4 py-2 bg-blue-500 text-white text-decoration-none rounded-lg font-bold transition hover:bg-blue-700">
+                    Start Visualizing!
+                </a>
+            </div>
+        </div>
+        
+        <div class="w-1/4 bg-gray-200 rounded-lg">
+            <p class = 'text-xl py-2 font-semibold'> Viridiplantae </p>
+            <div class="bg-white shadow-lg p-4 rounded-lg">
+                <a href = "{{ url_for('view', genus = 'v') }}" class = "inline-block px-4 py-2 bg-blue-500 text-white text-decoration-none rounded-lg font-bold transition hover:bg-blue-700">
+                    Start Visualizing!
+                </a>
+            </div>
+        </div>
+        
+        <div class="w-1/4 bg-gray-200 rounded-lg">
+            <p class = 'text-xl py-2 font-semibold'> Glaucophyta </p>
+            <div class="bg-white shadow-lg p-4 rounded-lg">
+                <a href = "{{ url_for('view', genus = 'g') }}" class = "inline-block px-4 py-2 bg-blue-500 text-white text-decoration-none rounded-lg font-bold transition hover:bg-blue-700">
+                    Start Visualizing!
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
