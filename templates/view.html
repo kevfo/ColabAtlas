@@ -17,6 +17,9 @@
     
 </div>
 <script>
-    {{js_code | safe }}
+    {{ meta | safe }}
+    {{ render | safe }}
 </script>
 {% endblock %}
+
+{% block footer %} {% endblock %}
