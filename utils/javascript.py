@@ -3,13 +3,16 @@ Contains helper functions to generate JavaScript to be executed
 on the client side
 '''
 
-def create_metadata(raw_data, filename):
+def create_metadata(raw_data, raw_filename, metadata, meta_filename):
     '''
     Returns JavaScript code that renders the Taxonium component.
     '''
     return('''
         let metaData = {
-            
+            status: "loaded",
+            filetype: "meta_csv",
+            filename: "%s",
+            data: `%s`,
         };
            
         let sourceData = {
@@ -17,8 +20,9 @@ def create_metadata(raw_data, filename):
             filename: "%s",
             data: `%s`,
             filetype: "nwk",
+            metadata: metaData,
         }
-    ''' % (filename, raw_data))
+    ''' % (meta_filename, metadata, raw_filename, raw_data))
 
 def render_taxonium():
     '''
