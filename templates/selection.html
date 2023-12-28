@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{{ super() }}
+
+{% block content %}
+<div class="p-10">
+    <p class="text-xl mb-8 font-bold"> Visualize phylogeny trees for: {{ head }} </p>
+        <div class = 'flex flex-row items-center flex-wrap'>
+        {% for item in choices %}
+        <div class="w-1/4 bg-white rounded-lg mr-8 border-black pb-3">
+            <p class = 'text-lg p-3 font-semibold text-wrap'> {{ item }} </p>
+            <div class="bg-white shadow-lg pl-3 py-4 rounded-lg">
+                <a href = "{{ url_for('view_specific', genus = 'viridaeplantae', specific = item) }}" class = "inline-block px-4 py-2 bg-gray-400 text-white text-decoration-none rounded-lg font-bold transition hover:bg-gray-300">
+                    Start Visualizing!
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br /> <br />
+</div>
+{% endblock %}
