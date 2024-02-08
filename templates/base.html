@@ -5,7 +5,11 @@
 
 {% block header %}
 <nav class = "bg-gray-800 p-4 flex items-center justify-between drop-shadow-2xl">
-    <a class = "text-white text-lg font-bold" href = "{{ url_for('index') }}"> ColabAtlas </a>
+    <div>
+        <a class = "text-white text-lg font-bold pr-6" href = "{{ url_for('index') }}"> ColabAtlas </a>
+        <a class = "text-white text-sm font-bold pr-6" href = "{{ url_for('about_us') }}"> About Us </a>
+        <a class = "text-white text-sm font-bold pr-6" href = "{{ url_for('contact_us') }}"> Contact Us </a>
+    </div>
     <a href = "https://github.com/your-github-repo" target = "_blank" class = "text-white">
         <img src = '{{ url_for("static", filename = "pics/github-mark-white.svg") }}' alt = 'GitHub Logo' class = 'h-6 w-6'/>
     </a>
